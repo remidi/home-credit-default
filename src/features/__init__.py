@@ -112,3 +112,23 @@ class FeatureBuilder(object):
 
         return app_data
 
+
+    @staticmethod
+    def _groupby_diffs(app_data):
+        app_data = 0
+        diff_feature_names = []
+        for groupby_cols, specs in tqdm(AGGREGATION_RECIPIES):
+            for select, agg in tqdm(specs):
+                if agg in ['mean', 'median', 'max', 'min']:
+                    groupby_aggregate_name = '{}_{}_{}'.format('_'.join(groupby_cols), agg, select)
+                    diff_name = '{}_diff'.format(groupby_aggregate_name)
+                    abs_diff_name = '{}_abs_diff'.format(groupby_aggregate_name)
+
+                    app_data[diff_name] = app_data[select] - app_data[groupby_aggregate_name]
+                    app_data[abs_diff_name] = np.abs(app_data[select] - app_data[groupby_aggregate_name])
+
+                    diff_feature_names.append(diff_name)
+                    diff_feature_names.append(abs_diff_name)
+
+        return app_data, diff_feature_names
+
