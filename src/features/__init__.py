@@ -132,3 +132,13 @@ class FeatureBuilder(object):
 
         return app_data, diff_feature_names
 
+
+
+    @staticmethod
+    def prev_application(previous_application):
+        previous_application['DAYS_FIRST_DRAWING'].replace(365243, np.nan, inplace=True)
+        previous_application['DAYS_FIRST_DUE'].replace(365243, np.nan, inplace=True)
+        previous_application['DAYS_LAST_DUE_1ST_VERSION'].replace(365243, np.nan, inplace=True)
+        previous_application['DAYS_LAST_DUE'].replace(365243, np.nan, inplace=True)
+        previous_application['DAYS_TERMINATION'].replace(365243, np.nan, inplace=True)
+
